@@ -1,4 +1,6 @@
-﻿namespace MatrixOperations.Domain
+﻿using System;
+
+namespace MatrixOperations.Domain
 {
     public class Matrix
     {
@@ -11,6 +13,11 @@
 
         public static Matrix operator +(Matrix first, Matrix second)
         {
+            if (first.Rows != second.Rows || first.Columns != second.Columns)
+            {
+                throw new ArgumentException("Matrix sizes must match");
+            }
+
             var result = new int[first.Rows, first.Columns];
             
             for (var i = 0; i < first.Rows; i++)
@@ -26,6 +33,11 @@
         
         public static Matrix operator -(Matrix first, Matrix second)
         {
+            if (first.Rows != second.Rows || first.Columns != second.Columns)
+            {
+                throw new ArgumentException("Matrix sizes must match");
+            }
+            
             var result = new int[first.Rows, first.Columns];
             
             for (var i = 0; i < first.Rows; i++)
@@ -41,6 +53,11 @@
         
         public static Matrix operator *(Matrix first, Matrix second)
         {
+            if (first.Columns != second.Rows)
+            {
+                throw new ArgumentException("First matrix columns count must match second matrix rows count");
+            }
+
             var result = new int[first.Rows, second.Columns];
             
             for (var i = 0; i < first.Rows; i++)

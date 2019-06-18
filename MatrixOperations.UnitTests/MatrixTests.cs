@@ -1,4 +1,5 @@
-﻿using MatrixOperations.Domain;
+﻿using System;
+using MatrixOperations.Domain;
 using Xunit;
 
 namespace MatrixOperations.UnitTests
@@ -35,6 +36,27 @@ namespace MatrixOperations.UnitTests
         }
         
         [Fact]
+        public void Add_SizesNotMatches_ThrowsException()
+        {
+            // Arrange
+            var first = new Matrix(new int[,]
+            {
+                { 1, 3, 0, 2 },
+                { 4, 1, 3, 1 }
+            });
+            
+            var second = new Matrix(new int[,]
+            {
+                { 4, -3, 2 },
+                { -3, 0, 4 }
+            });
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentException>(() => first + second);
+        }
+        
+        [Fact]
         public void Subtract()
         {
             // Arrange
@@ -61,6 +83,27 @@ namespace MatrixOperations.UnitTests
 
             // Assert
             Assert.Equal(expected, result);
+        }
+        
+        [Fact]
+        public void Subtract_SizesNotMatches_ThrowsException()
+        {
+            // Arrange
+            var first = new Matrix(new int[,]
+            {
+                { 1, 3, 0, 2 },
+                { 4, 1, 3, 1 }
+            });
+            
+            var second = new Matrix(new int[,]
+            {
+                { 4, -3, 2 },
+                { -3, 0, 4 }
+            });
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentException>(() => first - second);
         }
         
         [Fact]
@@ -97,6 +140,27 @@ namespace MatrixOperations.UnitTests
         }
         
         [Fact]
+        public void Multiply_SizesNotMatches_ThrowsException()
+        {
+            // Arrange
+            var first = new Matrix(new int[,]
+            {
+                { 1, 3 },
+                { 4, 1 }
+            });
+            
+            var second = new Matrix(new int[,]
+            {
+                { 4, -3, 2 },
+                { -3, 0, 4 }
+            });
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentException>(() => first + second);
+        }
+        
+        [Fact]
         public void Transpose()
         {
             // Arrange
@@ -120,6 +184,101 @@ namespace MatrixOperations.UnitTests
 
             // Assert
             Assert.Equal(expected, result);
+        }
+        
+        [Fact]
+        public void Equality_MatrixAreEqual_True()
+        {
+            // Arrange
+            var first = new Matrix(new int[,]
+            {
+                { 1, 4, -3, 2 },
+                { 5, 10, 0, 3 },
+                { 4, 1, 2, 6 }
+            });
+            
+            var second = new Matrix(new int[,]
+            {
+                { 1, 4, -3, 2 },
+                { 5, 10, 0, 3 },
+                { 4, 1, 2, 6 }
+            });
+
+            // Act
+            var result = Equals(first, second);
+
+            // Assert
+            Assert.True(result);
+        }
+        
+        [Fact]
+        public void Equality_MatrixAreNotEqual_False()
+        {
+            // Arrange
+            var first = new Matrix(new int[,]
+            {
+                { 1, 4, -3, 2 },
+                { 5, 10, 0, 3 },
+                { 4, 1, 2, 6 }
+            });
+            
+            var second = new Matrix(new int[,]
+            {
+                { 0, 4, -3, 2 },
+                { 5, 10, 0, 3 },
+                { 4, 1, 2, 6 }
+            });
+
+            // Act
+            var result = Equals(first, second);
+
+            // Assert
+            Assert.False(result);
+        }
+        
+        [Fact]
+        public void Equality_DifferentTypes_False()
+        {
+            // Arrange
+            var first = new Matrix(new int[,]
+            {
+                { 1, 4, -3 },
+                { 5, 10, 0 },
+                { 4, 1, 2 }
+            });
+            
+            var second = new object();
+
+            // Act
+            var result = Equals(first, second);
+
+            // Assert
+            Assert.False(result);
+        }
+        
+        [Fact]
+        public void Equality_MatrixHasDifferentShape_False()
+        {
+            // Arrange
+            var first = new Matrix(new int[,]
+            {
+                { 1, 4, -3 },
+                { 5, 10, 0 },
+                { 4, 1, 2 }
+            });
+            
+            var second = new Matrix(new int[,]
+            {
+                { 0, 4, -3, 2 },
+                { 5, 10, 0, 3 },
+                { 4, 1, 2, 6 }
+            });
+
+            // Act
+            var result = Equals(first, second);
+
+            // Assert
+            Assert.False(result);
         }
     }
 }
