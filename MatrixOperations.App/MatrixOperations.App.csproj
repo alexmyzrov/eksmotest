@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MatrixOperations.DAL\MatrixOperations.DAL.csproj" />
+      <ProjectReference Include="..\MatrixOperations.Domain\MatrixOperations.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
