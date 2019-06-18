@@ -10,19 +10,19 @@ namespace MatrixOperations.UnitTests
         public void Add()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 3, 0, 2 },
                 { 4, 1, 3, 1 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { 4, -3, 2, -2 },
                 { -3, 0, 4, 0 }
             });
             
-            var expected = new Matrix(new int[,]
+            var expected = new Matrix(new [,]
             {
                 { 5, 0, 2, 0 },
                 { 1, 1, 7, 1 }
@@ -39,13 +39,13 @@ namespace MatrixOperations.UnitTests
         public void Add_SizesNotMatches_ThrowsException()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 3, 0, 2 },
                 { 4, 1, 3, 1 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { 4, -3, 2 },
                 { -3, 0, 4 }
@@ -55,24 +55,24 @@ namespace MatrixOperations.UnitTests
             // Assert
             Assert.Throws<ArgumentException>(() => first + second);
         }
-        
+
         [Fact]
         public void Subtract()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 3, 0, 2 },
                 { 4, 1, 3, 1 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { 4, -3, 2, -2 },
                 { -3, 0, 4, 0 }
             });
             
-            var expected = new Matrix(new int[,]
+            var expected = new Matrix(new [,]
             {
                 { -3, 6, -2, 4 },
                 { 7, 1, -1, 1 }
@@ -89,13 +89,13 @@ namespace MatrixOperations.UnitTests
         public void Subtract_SizesNotMatches_ThrowsException()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 3, 0, 2 },
                 { 4, 1, 3, 1 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { 4, -3, 2 },
                 { -3, 0, 4 }
@@ -110,14 +110,14 @@ namespace MatrixOperations.UnitTests
         public void Multiply()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 4, -3, 2 },
                 { 5, 10, 0, 3 },
                 { 4, 1, 2, 6 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { -2, 1, 2 },
                 { 3, 4, -5 },
@@ -125,7 +125,7 @@ namespace MatrixOperations.UnitTests
                 { 2, 0, 1 }
             });
             
-            var expected = new Matrix(new int[,]
+            var expected = new Matrix(new [,]
             {
                 { -1, -13, -19 },
                 { 26, 45, -37 },
@@ -143,13 +143,13 @@ namespace MatrixOperations.UnitTests
         public void Multiply_SizesNotMatches_ThrowsException()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 3 },
                 { 4, 1 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { 4, -3, 2 },
                 { -3, 0, 4 }
@@ -164,19 +164,19 @@ namespace MatrixOperations.UnitTests
         public void Transpose()
         {
             // Arrange
-            var matrix = new Matrix(new int[,]
+            var matrix = new Matrix(new [,]
             {
                 { 1, 4, -3, 2 },
                 { 5, 10, 0, 3 },
                 { 4, 1, 2, 6 }
             });
             
-            var expected = new Matrix(new int[,]
+            var expected = new Matrix(new [,]
             {
                 { 1, 5, 4 },
                 { 4, 10, 1 },
                 { -3, 0, 2 },
-                { 2, 3, 6 },
+                { 2, 3, 6 }
             });
 
             // Act
@@ -190,14 +190,14 @@ namespace MatrixOperations.UnitTests
         public void Equality_MatrixAreEqual_True()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 4, -3, 2 },
                 { 5, 10, 0, 3 },
                 { 4, 1, 2, 6 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { 1, 4, -3, 2 },
                 { 5, 10, 0, 3 },
@@ -215,14 +215,14 @@ namespace MatrixOperations.UnitTests
         public void Equality_MatrixAreNotEqual_False()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 4, -3, 2 },
                 { 5, 10, 0, 3 },
                 { 4, 1, 2, 6 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { 0, 4, -3, 2 },
                 { 5, 10, 0, 3 },
@@ -240,7 +240,7 @@ namespace MatrixOperations.UnitTests
         public void Equality_DifferentTypes_False()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 4, -3 },
                 { 5, 10, 0 },
@@ -260,14 +260,14 @@ namespace MatrixOperations.UnitTests
         public void Equality_MatrixHasDifferentShape_False()
         {
             // Arrange
-            var first = new Matrix(new int[,]
+            var first = new Matrix(new [,]
             {
                 { 1, 4, -3 },
                 { 5, 10, 0 },
                 { 4, 1, 2 }
             });
             
-            var second = new Matrix(new int[,]
+            var second = new Matrix(new [,]
             {
                 { 0, 4, -3, 2 },
                 { 5, 10, 0, 3 },
@@ -279,6 +279,28 @@ namespace MatrixOperations.UnitTests
 
             // Assert
             Assert.False(result);
+        }
+        
+        [Fact]
+        public void ParseToString()
+        {
+            // Arrange
+            var matrix = new Matrix(new [,]
+            {
+                { 1, 4, -3 },
+                { 5, 10, 0 },
+                { 4, 1, 2 }
+            });
+
+            var expected =  "1 4 -3" + Environment.NewLine +  
+                            "5 10 0" + Environment.NewLine + 
+                            "4 1 2"  + Environment.NewLine ;
+
+            // Act
+            var result = matrix.ToString();
+
+            // Assert
+            Assert.Equal(expected, result);
         }
     }
 }

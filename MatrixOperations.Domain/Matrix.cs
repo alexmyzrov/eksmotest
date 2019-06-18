@@ -8,12 +8,17 @@ namespace MatrixOperations.Domain
 
         public Matrix(int[,] data)
         {
-            _data = data;
+            _data = data ?? throw new ArgumentNullException();
         }
 
         public static Matrix operator +(Matrix first, Matrix second)
         {
-            if (first.Rows != second.Rows || first.Columns != second.Columns)
+            if (first == null || second == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (!first.IsSameShapeAs(second))
             {
                 throw new ArgumentException("Matrix sizes must match");
             }
@@ -33,7 +38,12 @@ namespace MatrixOperations.Domain
         
         public static Matrix operator -(Matrix first, Matrix second)
         {
-            if (first.Rows != second.Rows || first.Columns != second.Columns)
+            if (first == null || second == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
+            if (!first.IsSameShapeAs(second))
             {
                 throw new ArgumentException("Matrix sizes must match");
             }
@@ -53,6 +63,11 @@ namespace MatrixOperations.Domain
         
         public static Matrix operator *(Matrix first, Matrix second)
         {
+            if (first == null || second == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             if (first.Columns != second.Rows)
             {
                 throw new ArgumentException("First matrix columns count must match second matrix rows count");
@@ -88,19 +103,36 @@ namespace MatrixOperations.Domain
             
             return new Matrix(result);
         }
+
+        public override string ToString()
+        {
+            var result = string.Empty;
+
+            for (var i = 0; i < Rows; i++)
+            {
+                for (var j = 0; j < Columns - 1; j++)
+                {
+                    result += _data[i, j].ToString() + ' ';
+                }
+
+                result += _data[i, Columns - 1] + Environment.NewLine;
+            }
+
+            return result;
+        }
         
 #pragma warning disable 659
         public override bool Equals(object obj)
 #pragma warning restore 659
         {
-            if ((obj == null) || GetType() != obj.GetType()) 
+            if (obj == null || GetType() != obj.GetType()) 
             {
                 return false;
             }
 
             var another = (Matrix)obj;
 
-            if (Rows != another.Rows || Columns != another.Columns)
+            if (!IsSameShapeAs(another))
             {
                 return false;
             }
@@ -122,5 +154,10 @@ namespace MatrixOperations.Domain
         private int Rows => _data.GetLength(0);
 
         private int Columns => _data.GetLength(1);
+
+        private bool IsSameShapeAs(Matrix another)
+        {
+            return Rows == another.Rows && Columns == another.Columns;
+        }
     }
 }
