@@ -17,12 +17,25 @@ namespace MatrixOperations.App
 
             var storage = new MatrixTaskFileStorage(args[0]);
 
-            var tasks = storage
-                .GetFiles()
-                .Select(filePath => Task.Run(() => ExecuteTaskFromFile(storage, filePath)))
-                .ToList();
+            Task result = null;
 
-            Task.WhenAll(tasks).Wait();
+            try
+            {
+                var tasks = storage
+                    .GetFiles()
+                    .Select(filePath => Task.Run(() => ExecuteTaskFromFile(storage, filePath)))
+                    .ToList();
+
+                result = Task.WhenAll(tasks); 
+                result.Wait();
+            }
+            catch
+            {
+                foreach (var exception in result.Exception.InnerExceptions)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+            }
         }
 
         private static void ExecuteTaskFromFile(MatrixTaskFileStorage storage, string filePath)
