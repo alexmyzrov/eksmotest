@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MatrixOperations.DAL;
@@ -25,14 +26,24 @@ namespace MatrixOperations.App
 
             _storage = new MatrixTaskFileStorage(args[0]);
 
-            Task result = null;
+            List<string> files = null;
 
             try
             {
-                var files = _storage
+                files = _storage
                     .GetFiles()
                     .ToList();
-
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            
+            Task result = null;
+            
+            try 
+            {
                 _tasksCount = files.Count;
                 
                 var tasks = files
