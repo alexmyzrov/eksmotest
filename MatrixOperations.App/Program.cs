@@ -7,6 +7,14 @@ namespace MatrixOperations.App
 {
     internal static class Program
     {
+        private static int _tasksCount;
+        
+        private static int _completedTasksCount;
+        
+        private static readonly object Locker = new object();
+        
+        private static MatrixTaskFileStorage _storage;
+        
         private static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -15,15 +23,20 @@ namespace MatrixOperations.App
                 return;
             }
 
-            var storage = new MatrixTaskFileStorage(args[0]);
+            _storage = new MatrixTaskFileStorage(args[0]);
 
             Task result = null;
 
             try
             {
-                var tasks = storage
+                var files = _storage
                     .GetFiles()
-                    .Select(filePath => Task.Run(() => ExecuteTaskFromFile(storage, filePath)))
+                    .ToList();
+
+                _tasksCount = files.Count;
+                
+                var tasks = files
+                    .Select(filePath => Task.Run(() => ExecuteTaskFromFile(filePath)))
                     .ToList();
 
                 result = Task.WhenAll(tasks); 
@@ -38,11 +51,17 @@ namespace MatrixOperations.App
             }
         }
 
-        private static void ExecuteTaskFromFile(MatrixTaskFileStorage storage, string filePath)
+        private static void ExecuteTaskFromFile(string filePath)
         {
             var task = MatrixTaskFileStorage.GetTask(filePath);
 
-            storage.Save(task.Execute(), task.Name);
+            _storage.Save(task.Execute(), task.Name);
+
+            lock (Locker)
+            {
+                _completedTasksCount++;
+                Console.Write($"\rCompleted {_completedTasksCount} of {_tasksCount} tasks    ");
+            }
         }
     }
 }
